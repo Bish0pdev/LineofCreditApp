@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Entry Page</title>
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+  <header>
+    <h1>Password Entry Page</h1>
+  </header>
+  <main>
+    <script src="accountmanagement.js"></script>
+    <section id="loginSection">
+      <h2>Login</h2>
+      <form id="loginForm" onsubmit="validateForm(event)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="org_ID">Unique Organization ID</label>
+        <input type="password" id="org_ID" name="org_ID"><br><br>
+        <button type="submit">Login</button>
+      </form>
+      <p id="loginMessage"></p>
+      <p><a href="#" id="createAccountLink">Create a new account</a></p>
+      <p><a href="#" id="forgotPasswordLink">Forgot password?</a></p>
+      <p><a href="#" id="createOrganization">Create an organization</a></p>
+    </section>
+    <section id="createAccountSection" style="display: none;">
+      <h2>Create Account</h2>
+      <form id="createAccountForm" onsubmit="createAccount(event)">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" name="newUsername" required><br><br>
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required><br><br>
+        <button type="submit">Create Account</button>
+      </form>
+      <button onclick="goBack('createAccountSection')">Back</button>
+    </section>
+    <section id="forgotPasswordSection" style="display: none;">
+      <h2>Forgot Password</h2>
+      <form id="forgotPasswordForm" onsubmit="changePassword(event)">
+        <label for="forgotUsername">Username:</label>
+        <input type="text" id="forgotUsername" name="forgotUsername" required><br><br>
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required><br><br>
+        <button type="submit">Change Password</button>
+      </form>
+      <button onclick="goBack('forgotPasswordSection')">Back</button>
+    </section>
+    <script>  
+      document.getElementById('createAccountLink').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('createAccountSection').style.display = 'block';
+      document.getElementById('forgotPasswordSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'none';
+    });
+  
+    document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('forgotPasswordSection').style.display = 'block';
+      document.getElementById('createAccountSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'none';
+    });
+  </script>
+  </main>
+  <footer>
+    <p>&copy; 2024 Line of Credit Management App</p>
+  </footer>
+  <script>
+    
+  </script>
+</body>
+</html>

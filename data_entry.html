@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Line of Credit Management</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="loginvalidation.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Line of Credit Management</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="basic_information.html">Basic Information</a></li>
+      <li><a href="data_entry.html">Data Entry</a></li>
+      <li><a href="graph_balance.html">Graph Balance</a></li>
+      <li><a href="recommendations.html">Recommendations</a></li>
+      <li><button id="sync_button">Sync Local Records</button></li>
+    </ul>
+  </nav>
+  <main>
+    <section>
+      <h2>Data Entry</h2>
+      <p>Please enter your credit or debit information below:</p>
+      <form id="data_entry_form">
+        <label for="transaction_type">Transaction Type:</label>
+        <select id="transaction_type" name="transaction_type">
+          <option value="credit">Credit</option>
+          <option value="debit">Debit</option>
+        </select><br><br>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+    </section>
+    <section>
+      <h2>Balance History</h2>
+      <ul id="balance_history"></ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2024 Line of Credit Management App</p>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("data_entry_form");
+      const balanceHistory = document.getElementById("balance_history");
+
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const transactionType = form.elements["transaction_type"].value;
+        const amount = parseFloat(form.elements["amount"].value);
+        const interestRatePositive = 0.05; // Example positive interest rate (5%)
+        const interestRateNegative = 0.1; // Example negative interest rate (10%)
+        let balance = parseFloat(localStorage.getItem("balance")) || 0;
+        let interest = 0;
+
+        if (transactionType === "credit") {
+          balance += amount;
+          interest = balance < 0 ? balance * interestRateNegative : balance * interestRatePositive;
+          balance += interest;
+        } else if (transactionType === "debit") {
+          balance -= amount;
+          interest = balance < 0 ? balance * interestRateNegative : balance * interestRatePositive;
+          balance += interest;
+        }
+
+        // Save entry to local storage
+        const entry = { transactionType, amount, balance };
+        let entries = JSON.parse(localStorage.getItem("entries")) || [];
+        entries.push(entry);
+        localStorage.setItem("entries", JSON.stringify(entries));
+
+        // Update balance history
+        displayBalanceHistory();
+      });
+
+      function displayBalanceHistory() {
+        balanceHistory.innerHTML = "";
+        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        entries.forEach(function(entry, index) {
+          const listItem = document.createElement("li");
+          listItem.textContent = `Entry ${index + 1}: ${entry.transactionType} - $${entry.amount}, Balance: $${entry.balance.toFixed(2)}`;
+          balanceHistory.appendChild(listItem);
+        });
+      }
+
+      // Initial display of balance history
+      displayBalanceHistory();
+    });
+  </script>
+</body>
+</html>

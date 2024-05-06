@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Balance</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Include chart library -->
+</head>
+<body>
+  <header>
+    <h1>Graph Balance</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="basic_information.html">Basic Information</a></li>
+      <li><a href="data_entry.html">Data Entry</a></li>
+      <li><a href="graph_balance.html">Graph Balance</a></li>
+      <li><a href="recommendations.html">Recommendations</a></li>
+      <li><button id="sync_button">Sync Local Records</button></li>
+    </ul>
+    </nav>
+    <main>
+      <section>
+        <h2>Graph Balance</h2>
+        <div id="chart-container">
+          <canvas id="chart" width="800" height="400"></canvas>
+      </div>
+      <div id="recommendation"></div>
+  
+      <script>
+          // Get data from localStorage
+var entries = localStorage.getItem("entries");
+var data = entries ? JSON.parse(entries) : [];
+
+// Get the canvas element and its context
+var canvas = document.getElementById('chart');
+var ctx = canvas.getContext('2d');
+
+// Draw the line chart
+ctx.beginPath();
+ctx.moveTo(50, 350); // Starting point
+data.forEach(function (entry, index) {
+    var x = 50 + index * (700 / (data.length - 1)); // Calculate x position
+    var y = 350 - (entry.balance / 100); // Calculate y position (scaled to fit within the chart)
+    ctx.lineTo(x, y);
+
+    // Add data labels
+    ctx.fillText('$' + entry.balance, x, y - 10); // Display balance above the data point
+    ctx.fillText(entry.transactionType, x, y + 20); // Display transaction type below the data point
+});
+ctx.stroke();
+
+// Calculate the current balance
+var currentBalance = data.length > 0 ? data[data.length - 1].balance : 0;
+
+// Display recommendation based on current balance
+var recommendationElement = document.getElementById('recommendation');
+if (currentBalance > 0) {
+    recommendationElement.innerText = 'Green signal - Your balance is positive.';
+    recommendationElement.style.color = 'green';
+} else {
+    var lineOfCredit = 5000; // Sample line of credit value (replace with actual value)
+    var maxNegativeBalance = -lineOfCredit * 0.5;
+    var alertThresholds = [-0.5, -0.8]; // 50% and 80% thresholds
+
+    if (currentBalance > maxNegativeBalance) {
+        if (currentBalance >= maxNegativeBalance * alertThresholds[1]) {
+            recommendationElement.innerText = 'Red alert - Your balance is at or above 80% of the line of credit.';
+            recommendationElement.style.color = 'red';
+        } else if (currentBalance >= maxNegativeBalance * alertThresholds[0]) {
+            recommendationElement.innerText = 'Amber alert - Your balance is between 50% and 80% of the line of credit.';
+            recommendationElement.style.color = 'orange';
+        } else {
+            recommendationElement.innerText = 'Yellow alert - Your balance is less than 50% of the line of credit.';
+            recommendationElement.style.color = 'yellow';
+        }
+    } else {
+        recommendationElement.innerText = 'Red alert - Your balance is below the maximum negative balance allowed.';
+        recommendationElement.style.color = 'red';
+    }
+}
+      </script>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Line of Credit Management App</p>
+    </footer>
+  </body>
+  </html>
+  

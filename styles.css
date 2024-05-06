@@ -1,0 +1,117 @@
+/* Reset default browser styles */
+body, h1, h2, p, ul, li, form, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  /* Body styles */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  /* Main styles */
+  main {
+    padding: 1rem;
+  }
+  
+  /* Section styles */
+  section {
+    margin-bottom: 1rem;
+  }
+  
+  /* Form styles */
+  form {
+    margin-bottom: 1rem;
+  }
+  
+  /* Input styles */
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Button styles */
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  /* Navigation styles */
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  
+  nav ul li a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  nav ul li a:hover {
+    text-decoration: underline;
+    background-color: rgb(196, 196, 196);
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+canvas{
+  width: 800px;
+    height: 400px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+  /* Responsive styles */
+  @media only screen and (max-width: 600px) {
+    /* Make the navigation menu vertical */
+    nav ul {
+      text-align: left;
+    }
+  
+    nav ul li {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
